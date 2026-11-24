@@ -1,6 +1,8 @@
 # Large data files
 *.edf
-^O
+
+# folders 
+/Users/pavanp/PhD/NeuroFeedback/My_own_test
 
 # System files
 .DS_Store
