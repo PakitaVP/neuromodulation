@@ -1,0 +1,31 @@
+function matlabbatch = batch_realign(metainfo, matlabbatch) 
+    ind = length(matlabbatch)+1;
+    disp("realign - matlabbatch index:");
+    disp(ind);    
+    st_path = fullfile(metainfo.funcDir, [metainfo.slicetime_prefix, metainfo.boldFile]);
+    vdm_path  = metainfo.vdmFile; 
+    matlabbatch{ind}.spm.spatial.realignunwarp.data.scans(1) = cellstr(st_path);
+    matlabbatch{ind}.spm.spatial.realignunwarp.data.pmscan(1) = cellstr(vdm_path);
+    matlabbatch{ind}.spm.spatial.realignunwarp.eoptions.quality = 0.9;
+    matlabbatch{ind}.spm.spatial.realignunwarp.eoptions.sep = 4;
+    matlabbatch{ind}.spm.spatial.realignunwarp.eoptions.fwhm = 5;
+    matlabbatch{ind}.spm.spatial.realignunwarp.eoptions.rtm = 0;
+    matlabbatch{ind}.spm.spatial.realignunwarp.eoptions.einterp = 7;
+    matlabbatch{ind}.spm.spatial.realignunwarp.eoptions.ewrap = [0 0 0];
+    matlabbatch{ind}.spm.spatial.realignunwarp.eoptions.weight = '';
+    matlabbatch{ind}.spm.spatial.realignunwarp.uweoptions.basfcn = [12 12];
+    matlabbatch{ind}.spm.spatial.realignunwarp.uweoptions.regorder = 1;
+    matlabbatch{ind}.spm.spatial.realignunwarp.uweoptions.lambda = 100000;
+    matlabbatch{ind}.spm.spatial.realignunwarp.uweoptions.jm = 0;
+    matlabbatch{ind}.spm.spatial.realignunwarp.uweoptions.fot = [4 5];
+    matlabbatch{ind}.spm.spatial.realignunwarp.uweoptions.sot = [];
+    matlabbatch{ind}.spm.spatial.realignunwarp.uweoptions.uwfwhm = 4;
+    matlabbatch{ind}.spm.spatial.realignunwarp.uweoptions.rem = 1;
+    matlabbatch{ind}.spm.spatial.realignunwarp.uweoptions.noi = 5;
+    matlabbatch{ind}.spm.spatial.realignunwarp.uweoptions.expround = 'Average';
+    matlabbatch{ind}.spm.spatial.realignunwarp.uwroptions.uwwhich = [2 1];
+    matlabbatch{ind}.spm.spatial.realignunwarp.uwroptions.rinterp = 7;
+    matlabbatch{ind}.spm.spatial.realignunwarp.uwroptions.wrap = [0 0 0];
+    matlabbatch{ind}.spm.spatial.realignunwarp.uwroptions.mask = 1;
+    matlabbatch{ind}.spm.spatial.realignunwarp.uwroptions.prefix = metainfo.realign_prefix;
+end

@@ -1,0 +1,54 @@
+function matlabbatch = batch_segment(metainfo, matlabbatch)   
+    global spmpath;
+    ind = length(matlabbatch)+1;
+    disp("segment - matlabbatch index:");
+    disp(ind);
+    matlabbatch{ind}.spm.spatial.preproc.channel.vols = cellstr(fullfile(metainfo.anaDir, metainfo.t1File)); 
+    matlabbatch{ind}.spm.spatial.preproc.channel.biasreg = 0.001;
+    matlabbatch{ind}.spm.spatial.preproc.channel.biasfwhm = 60;
+    matlabbatch{ind}.spm.spatial.preproc.channel.write = [1 0];
+    matlabbatch{ind}.spm.spatial.preproc.tissue(1).tpm = cellstr(fullfile(spmpath, 'tpm', 'TPM.nii,1'));
+    matlabbatch{ind}.spm.spatial.preproc.tissue(1).ngaus = 1;
+    matlabbatch{ind}.spm.spatial.preproc.tissue(1).native = [1 0];
+    matlabbatch{ind}.spm.spatial.preproc.tissue(1).warped = [0 0];
+    matlabbatch{ind}.spm.spatial.preproc.tissue(2).tpm = cellstr(fullfile(spmpath, 'tpm', 'TPM.nii,2'));
+    matlabbatch{ind}.spm.spatial.preproc.tissue(2).ngaus = 1;
+    matlabbatch{ind}.spm.spatial.preproc.tissue(2).native = [1 0];
+    matlabbatch{ind}.spm.spatial.preproc.tissue(2).warped = [0 0];
+    matlabbatch{ind}.spm.spatial.preproc.tissue(3).tpm = cellstr(fullfile(spmpath, 'tpm', 'TPM.nii,3'));
+    matlabbatch{ind}.spm.spatial.preproc.tissue(3).ngaus = 2;
+    matlabbatch{ind}.spm.spatial.preproc.tissue(3).native = [1 0];
+    matlabbatch{ind}.spm.spatial.preproc.tissue(3).warped = [0 0];
+    matlabbatch{ind}.spm.spatial.preproc.tissue(4).tpm = cellstr(fullfile(spmpath, 'tpm', 'TPM.nii,4'));
+    matlabbatch{ind}.spm.spatial.preproc.tissue(4).ngaus = 3;
+    matlabbatch{ind}.spm.spatial.preproc.tissue(4).native = [1 0];
+    matlabbatch{ind}.spm.spatial.preproc.tissue(4).warped = [0 0];
+    matlabbatch{ind}.spm.spatial.preproc.tissue(5).tpm = cellstr(fullfile(spmpath, 'tpm', 'TPM.nii,5'));
+    matlabbatch{ind}.spm.spatial.preproc.tissue(5).ngaus = 4;
+    matlabbatch{ind}.spm.spatial.preproc.tissue(5).native = [1 0];
+    matlabbatch{ind}.spm.spatial.preproc.tissue(5).warped = [0 0];
+    matlabbatch{ind}.spm.spatial.preproc.tissue(6).tpm = cellstr(fullfile(spmpath, 'tpm', 'TPM.nii,6'));
+    matlabbatch{ind}.spm.spatial.preproc.tissue(6).ngaus = 2;
+    matlabbatch{ind}.spm.spatial.preproc.tissue(6).native = [0 0];
+    matlabbatch{ind}.spm.spatial.preproc.tissue(6).warped = [0 0];
+    matlabbatch{ind}.spm.spatial.preproc.warp.mrf = 1;
+    matlabbatch{ind}.spm.spatial.preproc.warp.cleanup = 1;
+    matlabbatch{ind}.spm.spatial.preproc.warp.reg = [0 0.001 0.5 0.05 0.2];
+    matlabbatch{ind}.spm.spatial.preproc.warp.affreg = 'mni';
+    matlabbatch{ind}.spm.spatial.preproc.warp.fwhm = 0;
+    matlabbatch{ind}.spm.spatial.preproc.warp.samp = 3;
+    matlabbatch{ind}.spm.spatial.preproc.warp.write = [1 1];
+    
+    disp("imgcalc in segment - matlabbatch index:");
+    disp(ind+1);
+    
+    matlabbatch{ind+1}.spm.util.imcalc.input = {fullfile(metainfo.anaDir, ['BiasField_' metainfo.t1File]); fullfile(metainfo.anaDir, ['c1' metainfo.t1File]); fullfile(metainfo.anaDir, ['c2' metainfo.t1File]); fullfile(metainfo.anaDir, ['c3' metainfo.t1File])};
+    matlabbatch{ind+1}.spm.util.imcalc.output = 'Brain';
+    matlabbatch{ind+1}.spm.util.imcalc.outdir(1) = cellstr(metainfo.anaDir); %{'testdir'}; % cfg_dep('Get Pathnames: Directories (unique)', substruct('.','val', '{}',{10}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','up'));
+    matlabbatch{ind+1}.spm.util.imcalc.expression = '((i2 + i3 + i4)>0.9) .* i1';
+    matlabbatch{ind+1}.spm.util.imcalc.var = struct('name', {}, 'value', {});
+    matlabbatch{ind+1}.spm.util.imcalc.options.dmtx = 0;
+    matlabbatch{ind+1}.spm.util.imcalc.options.mask = 0;
+    matlabbatch{ind+1}.spm.util.imcalc.options.interp = 1;
+    matlabbatch{ind+1}.spm.util.imcalc.options.dtype = 4;
+end

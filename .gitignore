@@ -1,0 +1,11 @@
+# Large data files
+*.edf
+^O
+
+# System files
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
